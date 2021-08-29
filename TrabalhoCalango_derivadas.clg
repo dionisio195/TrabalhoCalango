@@ -1,0 +1,64 @@
+algoritmo TrabalhoCalango_derivadas;
+/* Síntese
+ Objetivo:	Calcular quantas derivadas uma função monomialtem até ela se tornar uma constante
+ Entrada :	O coeficiente e o expoente iniciaisda função monomial
+ Saída   :	se a função é monomial e, em caso afirmativo, quantas vezes se deriva até ela virar uma constante
+			além do ultimo coeficiente antes do zero*/
+			
+principal
+	// Declarações
+	real coeficiente,expoente,resultado;
+	inteiro i,contador,exp_inteiro;
+	contador=0;
+	
+	// Instruções
+	leia(coeficiente);
+	leia(expoente);
+	se (expoente<0) entao //verificação do sinal do expoente
+		escreval("FUNÇAO NÃO MONOMIAL - EXPOENTE NEGATIVO"); //pra não cair no caso de loop infinito
+	senao
+		exp_inteiro=expoente; //verificação se o expoente é inteiro
+		se (expoente-exp_inteiro==0)entao
+			para (i de expoente ate 0 passo -1)faca //loop para as derivações até virar constante
+				resultado = derivada(coeficiente,expoente);//chamar a função
+				contador=contador+1;
+			fimPara
+			escreval("QUANTIDADE DE DERIVAÇÕES = ", contador);
+			escreval("COEFICIENTE FINAL = ", resultado::3);
+		senao
+			escreval("FUNÇAO NÃO MONOMIAL - EXPOENTE NÃO INTEIRO");
+		fimSe
+	fimSe
+fimPrincipal
+
+funcao inteiro fatorial(inteiro x)//valores do expoente diminuindo a cada loop, de acordo com a derivada
+inteiro i,fat;
+fat=1;
+	para (i de 2 ate x passo 1) faca
+		fat=fat*i;
+	fimPara
+	retorna fat;
+fimFuncao
+
+funcao real derivada(real coeficiente,inteiro expoente)
+	//instruções
+	coeficiente = coeficiente*fatorial(expoente); //regra do tombo de derivação
+	retorna coeficiente;
+fimFuncao
+
+/* Enunciado: Faça um algoritmo que derive uma função monomial 
+   e mostre a ultima derivada antes do zero (constante, x^0).
+   
+  Deve ser construido por meio de uma função chamada "derivada"
+  que executa a regra do tombo uma vez.
+  
+  Entradas: real para o coeficiente e para o expoente.
+  
+  Saídas: Caso a função nao seja monomial:
+  			- "FUNÇAO NÃO MONOMIAL - EXPOENTE NEGATIVO", 
+  			  se o expoente for negativo
+  		    - "FUNÇAO NÃO MONOMIAL - EXPOENTE NÃO INTEIRO", 
+  			  se o expoente for fracionário ou irracional
+  		   Caso a função seja monomial:
+  			- "QUANTIDADE DE DERIVAÇÕES = " seguida do total de vezes que a função derivada foi executada
+  			 e "COEFICIENTE FINAL = " seguido da derivada que tem seu valor constante (x^0) com 3 casas decimais*/
